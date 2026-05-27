@@ -1,6 +1,6 @@
 # SCMS Paper Insights
 
-Web application for analyzing SCMS paper data at the University of Waikato.
+Web application for analyzing SCMS paper data at the University of Waikato. Client-approved proof-of-concept for the School of Computing and Mathematical Sciences.
 
 **COMPX397 Final Project** | **Supervisor: Assoc. Prof. Judy Bowen**
 
