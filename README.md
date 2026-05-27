@@ -37,7 +37,8 @@ Paper (1) ---< (M) Occurrence (M) >--- (1) Staff
    - `SQL/data.sql`
    - `SQL/constraints.sql`
 3. Update `php/config.php` with your credentials
-4. Place folder in `htdocs` and access via browser
+   (Default XAMPP: username `root`, empty password, database `paper_insights_db`)
+5. Place folder in `htdocs` and access via browser
 
 ## Directory Structure
 
