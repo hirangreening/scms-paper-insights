@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<!--
+  SCMS Paper Insights – Main Dashboard (COMPX397 Final Project)
+  Author: Hiran Greening
+  Implements core features described in Final Project Report:
+    - Card-based paper grid (Figure 4)
+    - Search & filtering by paper code, name, lecturer (Section 4.3)
+    - Modal with historical paper details (Figure 5)
+    - Responsive, University-aligned UI
+-->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCMS Paper Insights - University of Waikato</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <!-- Chart.js for future data visualisation (used in comparisons page) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Dashboard Sidebar -->
+        <div class="dashboard-sidebar">
+            <div class="logo-container">
+                <img src="assets/img/waikato-logo.png" alt="University of Waikato" class="logo">
+            </div>
+            <nav class="dashboard-nav">
+                <h2>SCMS Insights</h2>
+                <ul>
+                    <li><a href="#" class="nav-link active"><span class="icon">🏠</span> Dashboard</a></li>
+                </ul>
+                <div class="sidebar-footer">
+                    <p>SCMS Paper Insights</p>
+                    <p>v1.5</p>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <h1>SCMS Paper Insights</h1>
+            </header>
+
+            <!-- Primary search interface -->
+            <section class="hero">
+                <div class="hero-content">
+                    <h1>Find a Paper</h1>
+                    <p>Search for any paper taught in SCMS. Use the filters to search for the papers you need.</p>
+                    <div class="search-bar-container">
+                        <div class="search-input-wrapper">
+                            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                            <input type="text" id="searchInput"
+                                placeholder="Search by paper code, title, keyword or lecturer name">
+                        </div>
+                        <button id="searchButton" aria-label="Search papers">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Core filters: year, level, subject + More filters modal -->
+            <section class="filter-section">
+                <div class="filter-container">
+                    <div class="filter-group">
+                        <label for="yearSelect">Year</label>
+                        <select id="yearSelect">
+                            <option value="">All Years</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="levelSelect">Level</label>
+                        <select id="levelSelect">
+                            <option value="">All Levels</option>
+                            <option value="100">100 Level</option>
+                            <option value="200">200 Level</option>
+                            <option value="300">300 Level</option>
+                            <option value="500">500 Level</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="subjectSelect">Subject</label>
+                        <select id="subjectSelect">
+                            <option value="">Select option</option>
+                            <option value="CS">Computer Science</option>
+                            <option value="DATA">Data Analytics</option>
+                            <option value="MATH">Mathematics</option>
+                        </select>
+                    </div>
+                    <div class="filter-group more-filters-group">
+                        <button id="moreFiltersButton" class="filters-button">
+                            <img src="https://www.waikato.ac.nz/_resources/themes/app/dist/icons/filters.svg?m=1756397812"
+                                alt="More filters" class="filters-icon">
+                            <span>More filters</span>
+                        </button>
+                        <button id="clearFiltersButton" class="filters-button"
+                            style="margin-left: 0.5rem; border-color: var(--uow-dark-gray); color: var(--uow-dark-gray);">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M3 6h18"></path>
+                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                </path>
+                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                            </svg>
+                            <span>Clear Filters</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Active filters display -->
+            <div id="activeFilters" class="active-filters"></div>
+
+            <!-- Dynamic results container -->
+            <section class="results-section" style="display: none;">
+                <div class="results-header">
+                    <div class="results-count">0 papers found</div>
+                    <div class="last-updated">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        Paper details current as of <span id="currentDateTime">Loading...</span>
+                    </div>
+                </div>
+                <div class="paper-grid-container">
+                    <div class="paper-grid" id="paperGrid">
+                        <!-- Papers loaded dynamically by display.js -->
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Paper Details Modal -->
+    <div id="paperDetailsModal" class="modal-overlay">
+        <div class="modal-content paper-details-modal">
+            <div class="modal-header">
+                <h2>Paper Details</h2>
+                <div class="modal-actions">
+                    <button id="viewFullStatsButton" class="view-stats-btn">View Full Stats & Comparisons</button>
+                    <span class="close-button" aria-label="Close modal">&times;</span>
+                </div>
+            </div>
+            <div class="modal-body" id="paperDetailsContent">
+                <!-- Loaded dynamically by display.js -->
+            </div>
+        </div>
+    </div>
+
+    <!-- More Filters Modal - Design Preview (shows all options, only trimester works) -->
+    <div id="moreFiltersModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>More Filters</h2>
+                <span class="close-button" aria-label="Close filters">&times;</span>
+            </div>
+            <div class="modal-body">
+                <!-- Coming Soon Banner -->
+                <div class="coming-soon-banner">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    <span>Additional filters (Paper Type, Additional Trimester/Teaching period and Location filters) will be enabled when more data becomes available in
+                        the database.</span>
+                </div>
+
+                <!-- Paper Type (Disabled - Preview Only) -->
+                <div class="filter-group disabled-group">
+                    <label>Paper type <span class="coming-soon-tag">Coming soon</span></label>
+                    <div class="radio-group">
+                        <label class="radio-option disabled"><input type="checkbox" disabled> Online</label>
+                        <label class="radio-option disabled"><input type="checkbox" disabled> Dual</label>
+                        <label class="radio-option disabled"><input type="checkbox" disabled> Hybrid</label>
+                        <label class="radio-option disabled"><input type="checkbox" disabled> Block</label>
+                        <label class="radio-option disabled"><input type="checkbox" disabled> In-person</label>
+                        <label class="radio-option disabled"><input type="checkbox" disabled> Unistart</label>
+                        <label class="radio-option disabled"><input type="checkbox" disabled> Jump Start</label>
+                    </div>
+                </div>
+
+                <!-- Trimester (ENABLED: A, B, C only - others disabled like Paper Type) -->
+                <div class="filter-group">
+                    <label>Trimester/teaching period</label>
+                    <div class="radio-group">
+                        <!-- ENABLED - These exist in database -->
+                        <label class="radio-option"><input type="checkbox" name="trimester" value="A Trimester"> A
+                            Trimester</label>
+                        <label class="radio-option"><input type="checkbox" name="trimester" value="B Trimester"> B
+                            Trimester</label>
+                        <label class="radio-option"><input type="checkbox" name="trimester" value="C Trimester"> C
+                            Trimester (NZ summer)</label>
+
+                        <!-- DISABLED - These don't exist in current database (greyed out, no hover, not clickable) -->
+                        <label class="radio-option disabled"><input type="checkbox" disabled> Full year papers</label>
+                        <label class="radio-option disabled"><input type="checkbox" disabled> G Teaching Period</label>
+                        <label class="radio-option disabled"><input type="checkbox" disabled> H Teaching Period</label>
+                        <label class="radio-option disabled"><input type="checkbox" disabled> Other teaching
+                            periods</label>
+                    </div>
+                </div>
+
+                <!-- Location (Disabled - Preview Only) -->
+                <div class="filter-group disabled-group">
+                    <label>Location <span class="coming-soon-tag">Coming soon</span></label>
+                    <div class="radio-group">
+                        <label class="radio-option disabled"><input type="checkbox" disabled> Hamilton</label>
+                        <label class="radio-option disabled"><input type="checkbox" disabled> Tauranga</label>
+                        <label class="radio-option disabled"><input type="checkbox" disabled> China</label>
+                        <label class="radio-option disabled"><input type="checkbox" disabled> Vietnam</label>
+                        <label class="radio-option disabled"><input type="checkbox" disabled> Online</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="applyFiltersButton" class="apply-filters-btn">Apply Filters</button>
+                <button id="resetFiltersButton" class="reset-filters-btn">Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript modules -->
+    <script src="js/utils.js"></script>
+    <script src="js/display.js"></script>
+    <script src="js/filters.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

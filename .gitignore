@@ -1,0 +1,19 @@
+# Exclude all test folders and files
+test/
+php/test_data.php
+
+# Exclude local config
+php/config.php
+
+# Exclude OS junk files
+.DS_Store
+Thumbs.db
+
+# Exclude IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Exclude log files
+*.log

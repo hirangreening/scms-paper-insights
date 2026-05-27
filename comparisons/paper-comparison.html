@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<!--
+  SCMS Paper Insights – Paper Comparison Page (COMPX397 Final Project)
+  Author: Hiran Greening
+  Implements: "Separate page for statistical comparisons and data visualisation"
+  (Final Project Report, Section 2 & Figure 6)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paper Comparison - SCMS Paper Insights</title>
+    <link rel="stylesheet" href="../assets/css/comparison-styles.css">
+    <!-- Chart.js for interactive data visualisation -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header with navigation back to search -->
+            <div class="comparison-header">
+                <a href="../index.html" class="back-button" aria-label="Return to paper search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Back to Search
+                </a>
+                <h1 id="paperTitle" class="comparison-title">Paper Comparison: Loading...</h1>
+                <div class="header-spacer"></div> <!-- Pushes back button left, title center -->
+            </div>
+
+            <!-- User controls for chart type and time range -->
+            <div class="comparison-controls">
+                <div class="control-group">
+                    <label for="comparisonType">Comparison Type:</label>
+                    <select id="comparisonType" aria-label="Select comparison type">
+                        <option value="passRate">Pass Rate Over Time</option>
+                        <option value="studentCount">Student Count Over Time</option>
+                        <option value="trimester">Average Pass Rate by Trimester</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="timeRange">Time Range:</label>
+                    <select id="timeRange" aria-label="Select time range">
+                        <option value="all">All Years</option>
+                        <option value="5">Last 5 Years</option>
+                        <option value="3">Last 3 Years</option>
+                    </select>
+                </div>
+                <button id="generateChart" class="generate-btn">Generate Chart</button>
+            </div>
+
+            <!-- Interactive chart powered by Chart.js -->
+            <div class="chart-section" aria-live="polite">
+                <canvas id="comparisonChart" role="img" aria-label="Paper comparison chart"></canvas>
+            </div>
+
+            <!-- Raw data table with client-side sorting -->
+            <div class="data-table-section">
+                <h3>Raw Data</h3>
+                <div class="table-container">
+                    <table id="dataTable" aria-label="Historical paper offerings">
+                        <thead>
+                            <tr>
+                                <th scope="col">Year</th>
+                                <th scope="col">Trimester</th>
+                                <th scope="col">Students</th>
+                                <th scope="col">Pass Rate</th>
+                                <th scope="col">Staff</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populated dynamically by comparison.js -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Comparison logic and interactivity -->
+    <script src="../js/comparison.js"></script>
+
+    <!-- utilities -->
+    <script src="../js/utils.js"></script>
+</body>
+</html>

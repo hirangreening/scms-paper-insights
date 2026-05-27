@@ -1,0 +1,393 @@
+/*
+ * SCMS Paper Insights – Comparison page styling
+ * COMPX397 Final Project | Hiran Greening
+ * Implements UI described in Final Report (Figures 4–6)
+ * Uses University of Waikato brand colours and layout principles
+ */
+:root {
+    /* Brand Colors */
+    --uow-red: #E4010B;
+    --uow-yellow: #FFD200;
+    --uow-black: #000000;
+    --uow-white: #FFFFFF;
+    --uow-light-gray: #F5F5F5;
+    --uow-dark-gray: #4A4A4A;
+    --uow-border: #DDDDDD;
+    
+    /* Semantic Colors */
+    --success-color: #4CAF50;
+    --warning-color: #FF9800;
+    --danger-color: #F44336;
+}
+
+/* ==========================================================================
+   Layout & Container
+   ========================================================================== */
+
+.container {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--uow-light-gray);
+}
+
+.main-content {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+/* ==========================================================================
+   Comparison Header
+   ========================================================================== */
+
+.comparison-header {
+    padding: 1.5rem 2rem;
+    background-color: var(--uow-white);
+    border-bottom: 1px solid var(--uow-border);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.back-button {
+    color: var(--uow-red);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--uow-red);
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.back-button:hover {
+    background-color: rgba(228, 1, 11, 0.1);
+    transform: translateX(-2px);
+    text-decoration: none;
+}
+
+.comparison-title {
+    margin: 0;
+    color: var(--uow-red);
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    flex: 1;
+    min-width: 200px;
+}
+
+.header-spacer {
+    flex: 0 0 0%;
+}
+
+/* ==========================================================================
+   Comparison Controls
+   ========================================================================== */
+
+.comparison-controls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    align-items: center;
+    background-color: var(--uow-white);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.control-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+.control-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--uow-dark-gray);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.control-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--uow-border);
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    background-color: var(--uow-white);
+}
+
+.control-group select:focus {
+    outline: none;
+    border-color: var(--uow-red);
+    box-shadow: 0 0 0 3px rgba(228, 1, 11, 0.2);
+}
+
+.generate-btn {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--uow-red);
+    color: var(--uow-white);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.generate-btn:hover {
+    background-color: #C4010A;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(228, 1, 11, 0.3);
+}
+
+/* ==========================================================================
+   Chart Section
+   ========================================================================== */
+
+.chart-section {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background-color: var(--uow-white);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    min-height: 300px;
+}
+
+#comparisonChart {
+    width: 100%;
+    height: 400px;
+}
+
+/* ==========================================================================
+   Data Table Section
+   ========================================================================== */
+
+.data-table-section {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background-color: var(--uow-white);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.data-table-section h3 {
+    margin-bottom: 1.5rem;
+    color: var(--uow-red);
+    font-size: 1.3rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--uow-border);
+}
+
+.table-container {
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid var(--uow-border);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+th, td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--uow-border);
+}
+
+th {
+    background-color: rgba(228, 1, 11, 0.05);
+    font-weight: 600;
+    color: var(--uow-red);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+tr:hover {
+    background-color: rgba(228, 1, 11, 0.03);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+/* ==========================================================================
+   Pass Rate Styling
+   ========================================================================== */
+
+.pass-rate-cell {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.pass-rate-cell.success {
+    color: var(--success-color);
+}
+
+.pass-rate-cell.warning {
+    color: var(--warning-color);
+}
+
+.pass-rate-cell.danger {
+    color: var(--danger-color);
+}
+
+.pass-rate-wheel {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 0 auto;
+    background: conic-gradient(var(--color) calc(var(--percentage) * 1%), var(--uow-light-gray) 0%);
+}
+
+.pass-rate-wheel::after {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: var(--uow-white);
+    border-radius: 50%;
+}
+
+.pass-rate-wheel span {
+    position: relative;
+    z-index: 2;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+/* ==========================================================================
+   Table Sorting
+   ========================================================================== */
+
+#dataTable thead th .sortable-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+#dataTable thead th .sort-indicator {
+    font-size: 0.8em;
+    min-width: 1em;
+    text-align: center;
+    transition: opacity 0.2s ease;
+    opacity: 0.7;
+}
+
+#dataTable thead th .sort-indicator.sorted-asc {
+    color: var(--uow-red);
+    opacity: 1;
+}
+
+#dataTable thead th .sort-indicator.sorted-desc {
+    color: var(--uow-red);
+    opacity: 1;
+}
+
+#dataTable thead th.sorted {
+    background-color: rgba(228, 1, 11, 0.1);
+    color: var(--uow-red);
+}
+
+#dataTable thead th {
+    transition: background-color 0.2s ease;
+}
+
+#dataTable thead th:hover:not(.sorted) {
+    background-color: rgba(228, 1, 11, 0.05);
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    
+    .main-content {
+        padding: 1rem;
+    }
+    
+    .comparison-header {
+        padding: 1rem;
+        flex-direction: column;
+        text-align: center;
+        top: 70px;
+    }
+    
+    .comparison-title {
+        font-size: 1.5rem;
+    }
+    
+    .back-button {
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+    
+    .comparison-controls {
+        flex-direction: column;
+        padding: 1rem;
+    }
+    
+    .control-group {
+        width: 100%;
+    }
+    
+    .chart-section {
+        padding: 1rem;
+        min-height: 250px;
+    }
+    
+    #comparisonChart {
+        height: 300px;
+    }
+    
+    .data-table-section {
+        padding: 1rem;
+    }
+    
+    table {
+        font-size: 0.9rem;
+    }
+    
+    th, td {
+        padding: 0.5rem;
+    }
+    
+    .pass-rate-wheel {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .pass-rate-wheel span {
+        font-size: 0.6rem;
+    }
+}
